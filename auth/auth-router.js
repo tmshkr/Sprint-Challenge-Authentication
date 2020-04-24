@@ -11,7 +11,6 @@ router.post("/register", (req, res, next) => {
 
   Users.add({ username, password: hash })
     .then((user) => {
-      console.log(user);
       const token = generateToken(user);
       res.status(201).json({ token });
     })
@@ -21,8 +20,20 @@ router.post("/register", (req, res, next) => {
     });
 });
 
-router.post("/login", (req, res) => {
-  // implement login
+router.post("/login", (req, res, next) => {
+  const { username, password } = req.body;
+
+  Users.findBy({ username })
+    .then(([user]) => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        const token = generateToken(user);
+        res.json({ token });
+      } else next({ code: 401, message: "You shall not pass" });
+    })
+    .catch((err) => {
+      console.error(err);
+      next({ code: 500, message: "There was a problem logging in" });
+    });
 });
 
 module.exports = router;
