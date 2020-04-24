@@ -12,12 +12,30 @@ beforeAll(async () => {
 });
 
 describe("GET /api/jokes", () => {
+  it("returns status 200 when providing a valid token", () => {
+    return request(server)
+      .get("/api/jokes")
+      .set("Authorization", token)
+      .then((res) => {
+        expect(res.status).toBe(200);
+      });
+  });
+
   it("returns the jokes when providing a valid token", () => {
     return request(server)
       .get("/api/jokes")
       .set("Authorization", token)
       .then((res) => {
         expect(res.body[0].joke).toBeTruthy();
+      });
+  });
+
+  it("returns 401 when providing an invalid token", () => {
+    return request(server)
+      .get("/api/jokes")
+      .set("Authorization", "!" + token)
+      .then((res) => {
+        expect(res.status).toBe(401);
       });
   });
 });
