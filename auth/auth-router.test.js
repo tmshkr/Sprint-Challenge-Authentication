@@ -13,6 +13,13 @@ describe("POST /api/auth/register", () => {
         expect(res.status).toBe(201);
       });
   });
-  it.todo("returns the new user ID to the client");
+  it("returns the token to the client", async () => {
+    const res = await request(server)
+      .post("/api/auth/register")
+      .send({ username: "bob", password: "hello" });
+    const { token } = res.body;
+    expect(token).toBeTruthy();
+  });
+
   it.todo("creates a new user in the database");
 });
