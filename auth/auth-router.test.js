@@ -39,9 +39,15 @@ describe("POST /api/auth/login", () => {
         expect(res.status).toBe(200);
       });
   });
-  it.todo(
-    "returns the token to the client when providing the correct credentials"
-  );
+
+  it("returns the token to the client when providing the correct credentials", async () => {
+    const res = await request(server)
+      .post("/api/auth/login")
+      .send({ username: "bob", password: "hello" });
+    const { token } = res.body;
+    expect(token).toBeTruthy();
+  });
+
   it.todo(
     "returns a 401 error to the client when providing incorrect credentials"
   );
