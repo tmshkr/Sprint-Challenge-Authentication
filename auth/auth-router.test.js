@@ -21,5 +21,11 @@ describe("POST /api/auth/register", () => {
     expect(token).toBeTruthy();
   });
 
-  it.todo("creates a new user in the database");
+  it("creates a new user in the database", async () => {
+    await request(server)
+      .post("/api/auth/register")
+      .send({ username: "carol", password: "hello" });
+    const [user] = await db("users").where({ username: "carol" });
+    expect(user.username).toBe("carol");
+  });
 });
