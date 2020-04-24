@@ -29,3 +29,20 @@ describe("POST /api/auth/register", () => {
     expect(user.username).toBe("carol");
   });
 });
+
+describe("POST /api/auth/login", () => {
+  it("returns 200", () => {
+    return request(server)
+      .post("/api/auth/login")
+      .send({ username: "alice", password: "hello" })
+      .then((res) => {
+        expect(res.status).toBe(200);
+      });
+  });
+  it.todo(
+    "returns the token to the client when providing the correct credentials"
+  );
+  it.todo(
+    "returns a 401 error to the client when providing incorrect credentials"
+  );
+});
