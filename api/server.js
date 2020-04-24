@@ -15,5 +15,10 @@ server.use(express.json());
 server.use("/api/auth", authRouter);
 server.use("/api/jokes", authenticate, jokesRouter);
 server.get("/", (req, res) => res.json({ server: "up" }));
+server.use(errorHandler);
 
 module.exports = server;
+
+function errorHandler(err, req, res, next) {
+  res.status(err.code).json({ message: err.message });
+}
