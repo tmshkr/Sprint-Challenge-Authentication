@@ -2,6 +2,14 @@ form.auth-form {
   max-width: 500px;
   margin: auto;
   padding: 1rem;
+  span.error {
+    color: red;
+    &.response {
+      display: block;
+      margin-top: 1rem;
+      text-align: center;
+    }
+  }
 }
 [class^="spinner"] {
   display: block;

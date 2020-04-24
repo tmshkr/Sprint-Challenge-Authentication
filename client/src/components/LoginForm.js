@@ -20,7 +20,11 @@ function LoginForm(props) {
         if (data.token) setToken(data.token);
         history.push("/jokes");
       })
-      .catch((err) => console.dir(err));
+      .catch((err) => {
+        console.dir(err);
+        setLoading(false);
+        setError("response", "responseError", err.response.data.message);
+      });
   };
 
   return (
@@ -74,6 +78,9 @@ function LoginForm(props) {
             )}
           </>
         )}
+        <span className="response error">
+          {errors.response && errors.response.message}
+        </span>
       </form>
       {loading && <Spinner color="primary" />}
     </>
